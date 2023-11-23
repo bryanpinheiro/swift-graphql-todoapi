@@ -9,11 +9,15 @@ final class Todo: Model, Content {
 
     @Field(key: "title")
     var title: String
+    
+    @Field(key: "completed")
+    var completed: Bool
 
     init() { }
 
     init(id: UUID? = nil, title: String) {
         self.id = id
         self.title = title
+        self.completed = false
     }
 }
