@@ -1,6 +1,8 @@
 import NIOSSL
 import Fluent
 import FluentSQLiteDriver
+import GraphQLKit
+import GraphiQLVapor
 import Vapor
 
 // configures your application
@@ -11,7 +13,13 @@ public func configure(_ app: Application) async throws {
     app.databases.use(DatabaseConfigurationFactory.sqlite(.file("db.sqlite")), as: .sqlite)
 
     app.migrations.add(CreateTodo())
+    try await app.autoMigrate()
+    
+    // Register the schema and its resolver.
+    app.register(graphQLSchema: schema, withResolver: Resolver())
 
-    // register routes
-    try routes(app)
+    // Enable GraphiQL web page to send queries to the GraphQL endpoint.
+    if !app.environment.isRelease {
+        app.enableGraphiQL()
+    }
 }

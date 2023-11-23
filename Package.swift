@@ -1,12 +1,22 @@
-// swift-tools-version:5.9
+// swift-tools-version:5.7
 import PackageDescription
 
 let package = Package(
     name: "swift-graphql-todoapi",
     platforms: [
-       .macOS(.v13)
+       .macOS(.v12)
     ],
     dependencies: [
+        // Vapor Utilitiess
+        .package(
+          url: "https://github.com/alexsteinerde/graphql-kit.git",
+          from: "2.0.0"
+        ),
+        // Web Query Page
+        .package(
+          url: "https://github.com/alexsteinerde/graphiql-vapor.git",
+          from: "2.0.0"
+        ),
         // 💧 A server-side Swift web framework.
         .package(url: "https://github.com/vapor/vapor.git", from: "4.83.1"),
         // 🗄 An ORM for SQL and NoSQL databases.
@@ -18,6 +28,8 @@ let package = Package(
         .executableTarget(
             name: "App",
             dependencies: [
+                .product(name: "GraphQLKit", package: "graphql-kit"),
+                .product(name: "GraphiQLVapor", package: "graphiql-vapor"),
                 .product(name: "Fluent", package: "fluent"),
                 .product(name: "FluentSQLiteDriver", package: "fluent-sqlite-driver"),
                 .product(name: "Vapor", package: "vapor"),
